@@ -1,3 +1,4 @@
+
 import { TranslationStrings, Language } from './types.ts';
 
 export const GOOGLE_SHEET_URLS: Record<Language, string> = {
@@ -32,6 +33,7 @@ export const TRANSLATIONS: Record<Language, TranslationStrings> = {
     total: "Total",
     checkout: "Checkout",
     continueOrdering: "Continue Ordering",
+    // Fix: Added translation for 'reviews' property
     reviews: "Reviews",
   },
   es: {
@@ -50,6 +52,7 @@ export const TRANSLATIONS: Record<Language, TranslationStrings> = {
     total: "Total",
     checkout: "Finalizar Pedido",
     continueOrdering: "Continuar Comprando",
+    // Fix: Added translation for 'reviews' property
     reviews: "Reseñas",
   },
 };

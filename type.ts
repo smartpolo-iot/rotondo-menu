@@ -21,7 +21,6 @@ export interface MenuItem {
   variants?: MenuItemVariant[];
 }
 
-// Added CartItem interface as it was missing and required by CartDrawer
 export interface CartItem extends MenuItem {
   quantity: number;
 }
@@ -37,11 +36,11 @@ export interface TranslationStrings {
   unavailable: string;
   currency: string;
   specials: string;
-  // Added missing translation properties used in the application components
   orderSummary: string;
   emptyCart: string;
   total: string;
   checkout: string;
   continueOrdering: string;
+  // Fix: Added missing property 'reviews' required by ReviewsModal.tsx
   reviews: string;
 }
