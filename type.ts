@@ -21,11 +21,20 @@ export interface MenuItem {
   variants?: MenuItemVariant[];
 }
 
-// Added CartItem interface to fix missing export error in CartDrawer.tsx
-export interface CartItem extends MenuItem {
+/**
+ * Fix for error: Module '"../types"' has no exported member 'CartItem'.
+ */
+export interface CartItem {
+  id: string;
+  name: string;
+  price: number;
   quantity: number;
+  ingredients?: string;
 }
 
+/**
+ * Added missing translation keys to resolve property existence errors.
+ */
 export interface TranslationStrings {
   landingTitle: string;
   selectLanguage: string;
@@ -37,7 +46,7 @@ export interface TranslationStrings {
   unavailable: string;
   currency: string;
   specials: string;
-  // Added missing translation properties to fix property does not exist errors
+  // Added properties for Cart and Reviews
   orderSummary: string;
   emptyCart: string;
   total: string;

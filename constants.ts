@@ -16,6 +16,9 @@ export const THEME = {
   textDark: "#1a1a1a",
 };
 
+/**
+ * Updated TRANSLATIONS to include required keys for CartDrawer and ReviewsModal.
+ */
 export const TRANSLATIONS: Record<Language, TranslationStrings> = {
   en: {
     landingTitle: "Welcome to Rotondo Café",
@@ -28,7 +31,7 @@ export const TRANSLATIONS: Record<Language, TranslationStrings> = {
     unavailable: "Out of Stock",
     currency: "$",
     specials: "Promotions",
-    // Added missing translations for English
+    // Added keys
     orderSummary: "Order Summary",
     emptyCart: "Your cart is empty",
     total: "Total",
@@ -47,12 +50,12 @@ export const TRANSLATIONS: Record<Language, TranslationStrings> = {
     unavailable: "No disponible",
     currency: "$",
     specials: "Promociones",
-    // Added missing translations for Spanish
-    orderSummary: "Resumen del pedido",
+    // Added keys
+    orderSummary: "Resumen del Pedido",
     emptyCart: "Tu carrito está vacío",
     total: "Total",
-    checkout: "Finalizar pedido",
-    continueOrdering: "Continuar pidiendo",
+    checkout: "Finalizar Pedido",
+    continueOrdering: "Seguir Pidiendo",
     reviews: "Reseñas",
   },
 };
