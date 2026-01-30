@@ -21,20 +21,11 @@ export interface MenuItem {
   variants?: MenuItemVariant[];
 }
 
-/**
- * Fix for error: Module '"../types"' has no exported member 'CartItem'.
- */
-export interface CartItem {
-  id: string;
-  name: string;
-  price: number;
+// Added CartItem interface as it was missing and required by CartDrawer
+export interface CartItem extends MenuItem {
   quantity: number;
-  ingredients?: string;
 }
 
-/**
- * Added missing translation keys to resolve property existence errors.
- */
 export interface TranslationStrings {
   landingTitle: string;
   selectLanguage: string;
@@ -46,7 +37,7 @@ export interface TranslationStrings {
   unavailable: string;
   currency: string;
   specials: string;
-  // Added properties for Cart and Reviews
+  // Added missing translation properties used in the application components
   orderSummary: string;
   emptyCart: string;
   total: string;
