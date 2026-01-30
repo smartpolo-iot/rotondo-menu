@@ -9,6 +9,7 @@ interface Props {
   lang: Language;
   showImage?: boolean;
   hidePrices?: boolean;
+  onAddToCart?: () => void;
 };
 
 const CATEGORY_PLACEHOLDERS: Record<string, string> = {
@@ -22,7 +23,7 @@ const CATEGORY_PLACEHOLDERS: Record<string, string> = {
   'SANDWICHES': 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=800',
 };
 
-const ProductCard: React.FC<Props> = ({ item, lang, showImage = false, hidePrices = false }) => {
+const ProductCard: React.FC<Props> = ({ item, lang, showImage = false, hidePrices = false, onAddToCart }) => {
   const t = TRANSLATIONS[lang];
   const defaultMockup = CATEGORY_PLACEHOLDERS[item.category.toUpperCase()] || 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800';
 
@@ -51,7 +52,7 @@ const ProductCard: React.FC<Props> = ({ item, lang, showImage = false, hidePrice
   const isAvailable = item.available;
 
   return (
-    <div className={`bg-transparent border-b border-[#394869]/20 flex flex-col mb-10 transition-all relative group pb-8 ${!isAvailable ? 'opacity-50 grayscale contrast-75' : ''}`}>
+    <div className={`bg-transparent border-b border-[#394869]/10 flex flex-col mb-10 transition-all relative group pb-8 ${!isAvailable ? 'opacity-50 grayscale' : ''}`}>
 
       {!isAvailable && (
         <div className="absolute top-0 right-0 z-20 bg-gray-500 text-white font-montserrat font-bold px-3 py-1 uppercase tracking-widest text-[10px] shadow-sm">
@@ -60,7 +61,7 @@ const ProductCard: React.FC<Props> = ({ item, lang, showImage = false, hidePrice
       )}
 
       {showImage && (
-        <div className="relative h-64 w-full overflow-hidden bg-gray-50 mb-6">
+        <div className="relative h-64 w-full overflow-hidden bg-gray-50 mb-6 group-hover:shadow-lg transition-shadow duration-300">
           {item.isSpecial && isAvailable && (
             <div className="absolute top-4 left-4 z-10 bg-[#394869] text-white font-montserrat font-bold px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] shadow-md">
               {lang === 'es' ? 'PROMO' : 'SPECIAL'}
@@ -77,7 +78,7 @@ const ProductCard: React.FC<Props> = ({ item, lang, showImage = false, hidePrice
       <div className="flex flex-col flex-grow font-montserrat">
         <div className="flex justify-between items-start mb-3">
           <div className="flex-1 pr-4">
-            <h3 className={`text-xl font-semibold uppercase tracking-tight leading-tight mb-2 ${!isAvailable ? 'text-gray-400' : 'text-black'}`}>
+            <h3 className={`text-xl font-bold uppercase tracking-tight leading-tight mb-2 ${!isAvailable ? 'text-gray-400' : 'text-black'}`}>
               {item.name}
             </h3>
           </div>
@@ -110,15 +111,29 @@ const ProductCard: React.FC<Props> = ({ item, lang, showImage = false, hidePrice
             )}
           </div>
         </div>
+
         {item.ingredients && (
-          <p className={`text-sm leading-relaxed font-normal mb-2 whitespace-pre-line ${!isAvailable ? 'text-gray-400' : 'text-gray-600'}`}>
+          <p className={`text-sm leading-relaxed font-normal mb-4 whitespace-pre-line ${!isAvailable ? 'text-gray-400' : 'text-gray-600'}`}>
             {item.ingredients}
           </p>
         )}
+
         {item.comments && !item.variants && (
-          <p className={`text-[10px] font-bold uppercase tracking-wider italic ${!isAvailable ? 'text-gray-300' : 'text-[#394869]'}`}>
+          <p className={`text-[10px] font-bold uppercase tracking-wider italic mb-4 ${!isAvailable ? 'text-gray-300' : 'text-[#394869]'}`}>
             {item.comments}
           </p>
+        )}
+
+        {isAvailable && onAddToCart && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToCart();
+            }}
+            className="mt-auto self-start px-6 py-2 border-2 border-[#394869] text-[#394869] font-montserrat font-bold text-[11px] uppercase tracking-widest hover:bg-[#394869] hover:text-white transition-all active:scale-95"
+          >
+            {lang === 'es' ? 'Agregar al Pedido' : 'Add to Order'}
+          </button>
         )}
       </div>
     </div>

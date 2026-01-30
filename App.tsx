@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { MenuItem, Language } from './types.ts';
+import { MenuItem, Language, CartItem } from './types.ts';
 import { fetchMenuData } from './services/sheetService.ts';
 import LanguageLanding from './components/LanguageLanding.tsx';
 import ProductCard from './components/ProductCard.tsx';
+import CartDrawer from './components/CartDrawer.tsx';
 
 const CATEGORY_ORDER_ES = [
   'MAÑANAS Y TARDES',
@@ -54,6 +55,8 @@ const App: React.FC = () => {
   const [allMenuItems, setAllMenuItems] = useState<MenuItem[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const carouselRef = useRef<HTMLDivElement | null>(null);
@@ -187,17 +190,42 @@ const App: React.FC = () => {
     }
   };
 
+  const addToCart = (item: MenuItem) => {
+    setCart(prev => {
+      const existing = prev.find(i => i.id === item.id);
+      if (existing) {
+        return prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
+      }
+      return [...prev, { ...item, quantity: 1 }];
+    });
+  };
+
+  const updateCartQuantity = (id: string, delta: number) => {
+    setCart(prev => {
+      return prev.map(item => {
+        if (item.id === id) {
+          const newQty = Math.max(0, item.quantity + delta);
+          return { ...item, quantity: newQty };
+        }
+        return item;
+      }).filter(item => item.quantity > 0);
+    });
+  };
+
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
   if (!lang) return <LanguageLanding onSelect={setLang} menuItems={menuItems} />;
 
   return (
     <div className="min-h-screen flex flex-col font-montserrat bg-white">
-      <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
+      <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm">
         <header className="px-4 py-4 flex items-center justify-between border-b border-gray-100">
           <div className="flex items-center gap-4">
             <button
               onClick={() => {
                 setLang(null);
                 setAllMenuItems([]);
+                setCart([]);
               }}
               className="w-10 h-10 flex items-center justify-center text-gray-800 bg-gray-50 hover:bg-gray-100 transition-colors"
             >
@@ -262,6 +290,7 @@ const App: React.FC = () => {
                       item={item}
                       lang={lang}
                       showImage={!!item.imageUrl}
+                      onAddToCart={() => addToCart(item)}
                     />
                   ))}
                 </div>
@@ -297,6 +326,7 @@ const App: React.FC = () => {
                                 }}
                                 lang={lang}
                                 showImage={false}
+                                onAddToCart={() => addToCart(subItem)}
                               />
                             ))}
                           </div>
@@ -311,6 +341,7 @@ const App: React.FC = () => {
                           item={item}
                           lang={lang}
                           showImage={false}
+                          onAddToCart={() => addToCart(item)}
                         />
                       ))}
                     </div>
@@ -321,6 +352,38 @@ const App: React.FC = () => {
           </div>
         )}
       </main>
+
+      {/* Floating Action Button for Cart */}
+      {cartCount > 0 && (
+        <button
+          onClick={() => setIsCartOpen(true)}
+          className="fixed bottom-8 right-8 z-50 bg-[#e2b04c] text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
+        >
+          <div className="relative">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center border-2 border-white">
+              {cartCount}
+            </span>
+          </div>
+        </button>
+      )}
+
+      {/* Cart Drawer */}
+      {isCartOpen && (
+        <CartDrawer
+          items={cart}
+          lang={lang}
+          onUpdateQuantity={updateCartQuantity}
+          onClose={() => setIsCartOpen(false)}
+          onCheckout={() => {
+            alert(lang === 'es' ? 'Gracias por su pedido. ¡En breve nos comunicaremos!' : 'Thank you for your order. We will contact you shortly!');
+            setCart([]);
+            setIsCartOpen(false);
+          }}
+        />
+      )}
 
       {!loading && (
         <footer className="p-10 text-center text-gray-400 font-montserrat uppercase tracking-[0.15em] text-[10px] border-t border-gray-50 bg-white">
