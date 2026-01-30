@@ -7,10 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Rotondo Café Menu</title>
 
+  <script>
+    // Critical: Define process environment before any modules load
+    window.process = {
+      env: {
+        API_KEY: ""
+      }
+    };
+  </script>
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Babel -->
+  <!-- Babel Standalone for browser-side TSX transpilation -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <!-- Fonts -->
@@ -29,22 +38,6 @@
       padding: 0;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-    }
-
-    .font-bodoni {
-      font-family: 'Bodoni Moda', serif;
-    }
-
-    .font-montserrat {
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .font-jost {
-      font-family: 'Jost', sans-serif;
-    }
-
-    .font-funnel {
-      font-family: 'Funnel Sans', sans-serif;
     }
 
     .fade-in {
@@ -71,15 +64,6 @@
     }
   </style>
 
-  <script>
-    // Define process.env for browser environment to prevent crashes in AI services
-    window.process = {
-      env: {
-        API_KEY: "" // Will be handled by the environment
-      }
-    };
-  </script>
-
   <script type="importmap">
 {
   "imports": {
@@ -95,7 +79,8 @@
 
 <body>
   <div id="root"></div>
-  <!-- The platform automatically imports index.tsx as an ES module -->
+  <!-- Using Babel to handle the TSX entry point for static hosting -->
+  <script type="text/babel" data-type="module" src="./index.tsx"></script>
 </body>
 
 </html>

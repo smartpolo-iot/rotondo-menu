@@ -1,5 +1,5 @@
-import { MenuItem, Language } from '../types';
-import { GOOGLE_SHEET_URLS } from '../constants';
+import { MenuItem, Language } from '../types.ts';
+import { GOOGLE_SHEET_URLS } from '../constants.ts';
 
 export async function fetchMenuData(lang: Language = 'es'): Promise<MenuItem[]> {
   try {
@@ -11,7 +11,6 @@ export async function fetchMenuData(lang: Language = 'es'): Promise<MenuItem[]> 
     if (rows.length === 0) return [];
 
     return rows.map((row: any, index: number) => {
-      // Robust header mapping
       const priceRaw = row['Precios'] || row['Price'] || row['price'] || row['precio'] || '0';
       const cleanPrice = String(priceRaw).replace(/\./g, '').replace(',', '.').replace(/[^0-9.]+/g, "");
       const price = parseFloat(cleanPrice) || 0;
@@ -45,7 +44,6 @@ function parseCSV(text: string): any[] {
   const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
   if (lines.length < 2) return [];
 
-  // Clean headers to remove quotes and invisible characters
   const headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
   const result = [];
 
