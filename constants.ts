@@ -1,5 +1,4 @@
-
-import { TranslationStrings, Language } from './types';
+import { TranslationStrings, Language } from './types.ts';
 
 export const GOOGLE_SHEET_URLS: Record<Language, string> = {
   es: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkltO3QCOt-X1FS-imHKMxN3IIsQW5715nFqng0FbW1MDH7ClpPo8f-yHXO_Y-a02YLsHiP2f6JTpq/pub?gid=0&single=true&output=csv",
@@ -28,7 +27,6 @@ export const TRANSLATIONS: Record<Language, TranslationStrings> = {
     unavailable: "Out of Stock",
     currency: "$",
     specials: "Promotions",
-    // Added missing English translations
     orderSummary: "Order Summary",
     emptyCart: "Your cart is empty",
     total: "Total",
@@ -47,7 +45,6 @@ export const TRANSLATIONS: Record<Language, TranslationStrings> = {
     unavailable: "No disponible",
     currency: "$",
     specials: "Promociones",
-    // Added missing Spanish translations
     orderSummary: "Resumen del Pedido",
     emptyCart: "Tu carrito está vacío",
     total: "Total",

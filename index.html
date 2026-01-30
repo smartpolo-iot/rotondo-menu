@@ -8,7 +8,7 @@
   <title>Rotondo Café Menu</title>
 
   <script>
-    // Critical: Define process environment before any modules load
+    // Critical: Define process environment before any modules or libraries load
     window.process = {
       env: {
         API_KEY: ""
@@ -80,7 +80,7 @@
 
 <body>
   <div id="root"></div>
-  <!-- Using Babel to handle the TSX entry point for static hosting -->
+  <!-- Using Babel with data-type="module" to handle TSX entry point and respect importmap -->
   <script type="text/babel" data-type="module" src="./index.tsx"></script>
 </body>
 

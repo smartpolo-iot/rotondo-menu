@@ -1,5 +1,5 @@
 import React from 'react';
-import { Language, MenuItem } from '../types';
+import { Language, MenuItem } from '../types.ts';
 
 interface Props {
   onSelect: (lang: Language) => void;
