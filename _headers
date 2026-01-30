@@ -1,5 +1,8 @@
+/*
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Referrer-Policy: same-origin
 /*.ts
-  Content-Type: application/javascript
-
+Content-Type: application/javascript
 /*.tsx
-  Content-Type: application/javascript
+Content-Type: application/javascript
